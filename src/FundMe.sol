@@ -4,6 +4,7 @@ pragma solidity ^0.8.18;
 // Note: The AggregatorV3Interface might be at a different location than what was in the video!
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./PriceConverter.sol";
+import {Test, console} from "forge-std/Test.sol";
 
 error NotOwner();
 
@@ -36,6 +37,7 @@ contract FundMe {
 
     modifier onlyOwner() {
         // require(msg.sender == owner);
+        console.log("owner", i_owner);
         if (msg.sender != i_owner) revert NotOwner();
         _;
     }
@@ -75,6 +77,10 @@ contract FundMe {
 
     receive() external payable {
         fund();
+    }
+
+    function getFunder(uint256 index) public view returns (address) {
+        return funders[index];
     }
 }
 
